@@ -372,6 +372,22 @@
     .badge-submitted { background: var(--amber-bg);  color: var(--amber);  }
     .badge-wip       { background: var(--border);     color: var(--muted);  }
     .badge-conf      { background: var(--accent-bg);  color: var(--accent); }
+    .badge-journal   {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: #fff;
+    }
+
+    .pub-repo-row { margin-top: .85rem; }
+    .repo-link {
+      display: inline-flex; align-items: center; gap: .35rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .74rem; font-weight: 500;
+      color: var(--accent); text-decoration: none;
+      background: var(--accent-bg);
+      padding: .3rem .65rem; border-radius: 6px;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .repo-link:hover { transform: translateY(-1px); box-shadow: 0 3px 12px rgba(37,99,235,.22); }
 
     .pub-title-text {
       font-weight: 500; font-size: .93rem; line-height: 1.45;
@@ -392,7 +408,7 @@
       border-top: 0px solid var(--border);
     }
     .pub-card.open .pub-details {
-      max-height: 400px;
+      max-height: 620px;
       border-top: 1px solid var(--border);
     }
     .pub-details-inner {
@@ -400,6 +416,58 @@
       font-size: .85rem; color: var(--muted); line-height: 1.7;
     }
     .pub-details-inner strong { color: var(--text); }
+
+    /* ─── Projects ────────────────────────────────────────────── */
+    .proj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: .85rem;
+    }
+    .proj-card {
+      background: var(--bg2); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.15rem 1.3rem;
+      text-decoration: none; color: var(--text);
+      box-shadow: var(--card-shadow);
+      display: flex; flex-direction: column;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .proj-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 30px rgba(37,99,235,.14);
+    }
+    .proj-top {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: .6rem;
+    }
+    .proj-lang {
+      font-size: .7rem; color: var(--muted); font-weight: 500;
+      display: inline-flex; align-items: center; gap: .35rem;
+    }
+    .proj-lang::before {
+      content: ''; width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent2);
+    }
+    .proj-arrow {
+      color: var(--subtle); font-size: .9rem;
+      transition: transform var(--transition), color var(--transition);
+    }
+    .proj-card:hover .proj-arrow { color: var(--accent); transform: translate(2px,-2px); }
+    .proj-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: .85rem; font-weight: 500;
+      margin-bottom: .4rem; word-break: break-word;
+    }
+    .proj-desc {
+      font-size: .8rem; color: var(--muted); line-height: 1.55;
+      flex: 1;
+    }
+    .proj-tags { display: flex; gap: .35rem; flex-wrap: wrap; margin-top: .8rem; }
+    .ptag {
+      font-size: .68rem; font-weight: 500;
+      background: var(--accent-bg); color: var(--accent);
+      padding: .12rem .45rem; border-radius: 4px;
+    }
 
     /* ─── Timeline (Experience) ───────────────────────────────── */
     .timeline { position: relative; padding-left: 2rem; }
@@ -560,6 +628,7 @@
     <ul class="nav-links">
       <li><a href="#research"     data-section="research">Research</a></li>
       <li><a href="#publications" data-section="publications">Publications</a></li>
+      <li><a href="#projects"     data-section="projects">Projects</a></li>
       <li><a href="#experience"   data-section="experience">Experience</a></li>
       <li><a href="#cv"           data-section="cv">CV</a></li>
       <li><a href="#contact"      data-section="contact">Contact</a></li>
@@ -590,7 +659,7 @@
       </div>
 
       <p class="hero-bio">
-        M.E. student at <strong>Jadavpur University</strong>, Kolkata. I study Small Language Models — how they reason, fail, and can be orchestrated in multi-agent systems. Former Research Intern at the <strong>AI-ML-NLP Lab, IIT Patna</strong> under Dr. Sriparna Saha.
+        M.E. student at <strong>Jadavpur University</strong>, Kolkata. I study Small Language Models — how they reason, where they break, and how far they can be pushed through multi-agent orchestration. My work spans reasoning benchmarks, robustness audits, bias measurement, and low-resource Indic NLP. Research Intern at the <strong>AI-ML-NLP Lab, IIT Patna</strong> under Dr. Sriparna Saha.
       </p>
 
       <div class="stats-strip">
@@ -600,7 +669,7 @@
         </div>
         <div class="stat-divider"></div>
         <div class="stat-item">
-          <span class="stat-number" data-target="3">0</span>
+          <span class="stat-number" data-target="10">0</span>
           <span class="stat-label">Publications</span>
         </div>
         <div class="stat-divider"></div>
@@ -618,7 +687,7 @@
       <div class="hero-ctas">
         <a href="#contact"      class="btn btn-primary">✉ Get in touch</a>
         <a href="#publications" class="btn btn-outline">📄 Publications</a>
-        <a href="Sayanjib_Sur-2.pdf" target="_blank" class="btn btn-outline">⬇ Download CV</a>
+        <a href="Sayanjib_Sur_CV.pdf" target="_blank" class="btn btn-outline">⬇ Download CV</a>
       </div>
     </div>
 
@@ -657,10 +726,22 @@
       <span class="card-tag">15,000+ samples</span>
     </div>
     <div class="tilt-card reveal reveal-delay-1">
+      <div class="card-icon">🛡️</div>
+      <div class="card-title">Robustness &amp; Safety</div>
+      <div class="card-desc">Prompt-injection robustness of on-device models, and format-sensitivity audits showing how surface changes flip predictions.</div>
+      <span class="card-tag">18–86% answer flips</span>
+    </div>
+    <div class="tilt-card reveal reveal-delay-2">
+      <div class="card-icon">⚖️</div>
+      <div class="card-title">Bias &amp; Fairness</div>
+      <div class="card-desc">Measuring social stereotype bias across ten SLMs (135M–9B) on BBQ, CrowS-Pairs, and StereoSet — does bias scale with size?</div>
+      <span class="card-tag">10 models evaluated</span>
+    </div>
+    <div class="tilt-card reveal reveal-delay-3">
       <div class="card-icon">📐</div>
       <div class="card-title">Efficiency Metrics</div>
-      <div class="card-desc">Introduced NATE (Normalized Accuracy per Thousand Tokens) for fair cross-model comparison under token-budget constraints.</div>
-      <span class="card-tag">Novel metric</span>
+      <div class="card-desc">Introduced NATE (Normalized Accuracy per Thousand Tokens), FSS, and FFR for fair cross-model comparison under token budgets.</div>
+      <span class="card-tag">3 novel metrics</span>
     </div>
   </div>
 </div>
@@ -671,7 +752,7 @@
     <div class="section-tag">Publications</div>
     <h2>Research Output</h2>
     <p class="section-intro">
-      Click any paper to expand details. 2 papers accepted / under review; 1 survey in preparation.
+      Click any paper to expand details. <strong>1 accepted</strong> · <strong>9 under review</strong> across IEEE conferences and journals. Code for most projects is openly available.
     </p>
   </div>
 
@@ -687,13 +768,14 @@
           </div>
           <div class="pub-title-text">Evaluating SLMs on Understanding Structured Frameworks using Cluster Aware Prompting</div>
           <div class="pub-authors">Sur, S., and Bhaumik, P.</div>
-          <div class="pub-venue">Proceedings of COMSYS 2026</div>
+          <div class="pub-venue">7th International Conference on Frontiers in Computing and Systems (COMSYS 2026)</div>
         </div>
         <div class="pub-chevron">▾</div>
       </div>
       <div class="pub-details">
         <div class="pub-details-inner">
           Designed a <strong>cluster-aware prompting pipeline</strong> partitioning 5 SLMs (1.5B–7B) into context-length groups (2K–4K, 8K, 16K+) with distinct zero-shot, one-shot, and self-augmented prompt families. Conducted <strong>10,800 inference runs per model</strong> across 6 task types, 6 serialization formats (HTML, JSON, Markdown, Turtle, TXT, XML), and 5 questionnaire datasets using Ollama on Google Colab Pro (A100). Best overall accuracy: <strong>Vicuna-7B (35%)</strong>; multi-hop inference collapsed below 6% across all models, exposing a hard reasoning ceiling in current SLMs.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/qasu-slm-benchmark" target="_blank" class="repo-link">⌥ qasu-slm-benchmark</a></div>
         </div>
       </div>
     </div>
@@ -703,18 +785,18 @@
         <span class="pub-index">02</span>
         <div class="pub-body">
           <div class="pub-badges">
-            <span class="badge badge-submitted">⏳ Submitted</span>
-            <span class="badge badge-conf">IEEE ICCUBEA 2026</span>
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-journal">IEEE Access · IF 4.2</span>
           </div>
-          <div class="pub-title-text">Structured Communication and Ensemble Diversity in SLM-based Multi-Agent Systems: A Comparative Study</div>
-          <div class="pub-authors">Sur, S., Sil Sarma, A., and Singh, P. K.</div>
-          <div class="pub-venue">IEEE International Conference on Computing, Communication, Control and Automation (ICCUBEA 2026)</div>
+          <div class="pub-title-text">A Multi-task Benchmark for Maithili and Bhojpuri NLP</div>
+          <div class="pub-authors">Prakash, D., <strong>Sur, S.</strong>, and Saha, S.</div>
+          <div class="pub-venue">Submitted to IEEE Access</div>
         </div>
         <div class="pub-chevron">▾</div>
       </div>
       <div class="pub-details">
         <div class="pub-details-inner">
-          Designed two complementary multi-agent methodologies on the <strong>SVAMP benchmark</strong> across 5 SLMs (1.5B–7B): <strong>Pipeline Decomposition</strong> (sequential Planner → Solver → Verifier with 3 communication modes: natural, constrained, structured) and <strong>Diverse Ensemble Reasoning</strong> (parallel CoT, Formula-First, and Backward agents via majority vote). Best pipeline: <strong>DeepSeek-R1-Distill-Qwen-1.5B (67%)</strong>; Diverse Ensemble achieved <strong>LLaMA 3.2-3B at 81%</strong> accuracy (vs. 77% CoT baseline). Introduced <strong>NATE</strong> (Normalized Accuracy per Thousand Tokens) as an efficiency metric for fair cross-model comparison.
+          A multi-task benchmark for two <strong>low-resource Indic languages</strong>, Maithili and Bhojpuri, developed during my research internship at the AI-ML-NLP Lab, IIT Patna under Dr. Sriparna Saha. The work involved constructing a corpus of 15,000+ samples through end-to-end web scraping, cleaning, and preprocessing pipelines, then evaluating multilingual models including Sarvam, Airavata, OpenHathi, and IndicBART.
         </div>
       </div>
     </div>
@@ -724,21 +806,275 @@
         <span class="pub-index">03</span>
         <div class="pub-body">
           <div class="pub-badges">
-            <span class="badge badge-wip">✍ In Preparation</span>
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-journal">BDCC · MDPI · IF 5.3</span>
           </div>
           <div class="pub-title-text">Small Language Models: A Survey of Architecture, Scaling, Applications, and Deployment (2022–2026)</div>
-          <div class="pub-authors">Sur, S., Ghosh, D., and Singh, P. K.</div>
-          <div class="pub-venue">Manuscript in preparation</div>
+          <div class="pub-authors"><strong>Sur, S.</strong>, Ghosh, D., and Singh, P. K.</div>
+          <div class="pub-venue">Special Issue "Large Language Models for Cutting Edge Applications in Science and Humanities," Big Data and Cognitive Computing (BDCC), MDPI</div>
         </div>
         <div class="pub-chevron">▾</div>
       </div>
       <div class="pub-details">
         <div class="pub-details-inner">
-          A comprehensive survey covering the SLM landscape from 2022 to 2026 — tracing architectural evolution, scaling behaviour, domain-specific applications, and real-world deployment constraints. The survey synthesises findings from benchmarking studies, distillation techniques, parameter-efficient fine-tuning, and agentic system design to provide a unified reference for researchers working in efficient NLP.
+          A comprehensive survey covering the SLM landscape from 2022 to 2026 — tracing architectural evolution, scaling behaviour, domain-specific applications, and real-world deployment constraints. Synthesises findings from benchmarking studies, distillation techniques, parameter-efficient fine-tuning, and agentic system design into a unified reference for researchers in efficient NLP.
         </div>
       </div>
     </div>
 
+    <div class="pub-card reveal reveal-delay-1">
+      <div class="pub-main">
+        <span class="pub-index">04</span>
+        <div class="pub-body">
+          <div class="pub-badges">
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-conf">IEEE CALCON 2026</span>
+          </div>
+          <div class="pub-title-text">NumFmt-SLM: Are Small Language Models Invariant to Number Surface Formats?</div>
+          <div class="pub-authors"><strong>Sur, S.</strong>, Sil Sarma, A., and Singh, P. K.</div>
+          <div class="pub-venue">Submitted to IEEE Calcutta Conference (CALCON 2026)</div>
+        </div>
+        <div class="pub-chevron">▾</div>
+      </div>
+      <div class="pub-details">
+        <div class="pub-details-inner">
+          A reproducible benchmark testing whether mathematically equivalent number formats (plain, comma, words, scientific, abbreviated) change model predictions — evaluating <strong>9 SLMs (0.6B–7B)</strong> across 7 datasets including AQuA-RAT, MMLU-Quant, GSM8K, and FinanceBench. Introduced <strong>Format Sensitivity Score (FSS)</strong> and <strong>Format Flip Rate (FFR)</strong> metrics; found <strong>18–86% of MCQ answers flip</strong> under format changes alone. Format changes destroy correct answers ~1.7× more often than they create them.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/numfmt-slm" target="_blank" class="repo-link">⌥ numfmt-slm</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-card reveal reveal-delay-2">
+      <div class="pub-main">
+        <span class="pub-index">05</span>
+        <div class="pub-body">
+          <div class="pub-badges">
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-conf">IEEE SILCON 2026</span>
+          </div>
+          <div class="pub-title-text">Found but Not Used: A Full-Factorial Audit of RAG Distraction in Small Language Models</div>
+          <div class="pub-authors">Tripathi, S., Kundu, S., <strong>Sur, S.</strong>, and Singh, P. K.</div>
+          <div class="pub-venue">Submitted to IEEE Silchar Subsection Conference (SILCON 2026)</div>
+        </div>
+        <div class="pub-chevron">▾</div>
+      </div>
+      <div class="pub-details">
+        <div class="pub-details-inner">
+          A full-factorial audit of retrieval-augmented generation across <strong>six small language models (360M–3.8B)</strong>, isolating when retrieved context genuinely helps versus when it distracts. Examines the interaction of chunk size, retriever type, and top-k on downstream QA performance.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/slm-rag-distraction-audit" target="_blank" class="repo-link">⌥ slm-rag-distraction-audit</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-card reveal reveal-delay-3">
+      <div class="pub-main">
+        <span class="pub-index">06</span>
+        <div class="pub-body">
+          <div class="pub-badges">
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-conf">IEEE SILCON 2026</span>
+          </div>
+          <div class="pub-title-text">Scaling Bias or Biasing Scale? Measuring Social Stereotype Bias Across Small Language Models</div>
+          <div class="pub-authors">Sanbui, D., Bhol, S., <strong>Sur, S.</strong>, and Singh, P. K.</div>
+          <div class="pub-venue">Submitted to IEEE Silchar Subsection Conference (SILCON 2026)</div>
+        </div>
+        <div class="pub-chevron">▾</div>
+      </div>
+      <div class="pub-details">
+        <div class="pub-details-inner">
+          Measures social stereotype bias across <strong>ten small language models (135M–9B)</strong> on the BBQ, CrowS-Pairs, and StereoSet benchmarks — asking whether bias scales with model size or is an artefact of scale itself.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/bias-scale-slm" target="_blank" class="repo-link">⌥ bias-scale-slm</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-card reveal reveal-delay-1">
+      <div class="pub-main">
+        <span class="pub-index">07</span>
+        <div class="pub-body">
+          <div class="pub-badges">
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-conf">ICCE 2026</span>
+          </div>
+          <div class="pub-title-text">Structured Communication and Ensemble Diversity in SLM-based Multi-Agent Systems: A Comparative Study</div>
+          <div class="pub-authors"><strong>Sur, S.</strong>, Sil Sarma, A., and Singh, P. K.</div>
+          <div class="pub-venue">Submitted to International Conference for Convergence in Engineering (ICCE 2026)</div>
+        </div>
+        <div class="pub-chevron">▾</div>
+      </div>
+      <div class="pub-details">
+        <div class="pub-details-inner">
+          Two complementary multi-agent methodologies on the <strong>SVAMP benchmark</strong> across 5 SLMs (1.5B–7B): <strong>Pipeline Decomposition</strong> (Planner → Solver → Verifier with natural, constrained, and structured communication modes) and <strong>Diverse Ensemble Reasoning</strong> (parallel CoT, Formula-First, and Backward agents via majority vote). Best pipeline: <strong>DeepSeek-R1-Distill-Qwen-1.5B (67%)</strong>; Diverse Ensemble achieved <strong>LLaMA 3.2-3B at 81%</strong> (vs. 77% CoT baseline). Introduced <strong>NATE</strong> (Normalized Accuracy per Thousand Tokens) as an efficiency metric.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/SLM-based-MultiAgent-Frameworks" target="_blank" class="repo-link">⌥ SLM-based-MultiAgent-Frameworks</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-card reveal reveal-delay-2">
+      <div class="pub-main">
+        <span class="pub-index">08</span>
+        <div class="pub-body">
+          <div class="pub-badges">
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-conf">IEEE ICCCMLA 2026</span>
+          </div>
+          <div class="pub-title-text">Small Models, Big Choices: A Systematic Study of Few-Shot Prompting versus Fine-Tuning for Tiny Language Models</div>
+          <div class="pub-authors">Dash, S., Pahari, D., <strong>Sur, S.</strong>, and Singh, P. K.</div>
+          <div class="pub-venue">Submitted to 2026 IEEE 8th International Conference on Cybernetics, Cognition and Machine Learning Applications (ICCCMLA)</div>
+        </div>
+        <div class="pub-chevron">▾</div>
+      </div>
+      <div class="pub-details">
+        <div class="pub-details-inner">
+          A systematic study of the <strong>few-shot vs. LoRA/QLoRA crossover threshold N*</strong> across 12 sub-1B language models and 5 NLP tasks — identifying the point at which fine-tuning begins to outperform in-context learning under realistic data budgets.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/small-models-big-choices" target="_blank" class="repo-link">⌥ small-models-big-choices</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-card reveal reveal-delay-3">
+      <div class="pub-main">
+        <span class="pub-index">09</span>
+        <div class="pub-body">
+          <div class="pub-badges">
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-conf">MINDS 2026</span>
+          </div>
+          <div class="pub-title-text">Size Isn't Safety: Prompt-Injection Robustness of Small On-Device Language Models</div>
+          <div class="pub-authors"><strong>Sur, S.</strong>, Jariwala, K. B., Kundu, A., Mehta, P. D., and Singha Deb, R.</div>
+          <div class="pub-venue">Submitted to International Conference on Machine Intelligence and Network Data Security (MINDS 2026)</div>
+        </div>
+        <div class="pub-chevron">▾</div>
+      </div>
+      <div class="pub-details">
+        <div class="pub-details-inner">
+          A reproducible evaluation of <strong>prompt-injection robustness</strong> in small on-device LLMs (1–3B), paired with lightweight training-free defenses — arguing that reduced model size does not confer security by default.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/prompt-injection-robustness" target="_blank" class="repo-link">⌥ prompt-injection-robustness</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pub-card reveal reveal-delay-1">
+      <div class="pub-main">
+        <span class="pub-index">10</span>
+        <div class="pub-body">
+          <div class="pub-badges">
+            <span class="badge badge-submitted">⏳ Under Review</span>
+            <span class="badge badge-conf">MINDS 2026</span>
+          </div>
+          <div class="pub-title-text">Which Keypoints Matter? An Ablation Study for On-Device Indian Sign Language Recognition</div>
+          <div class="pub-authors">Pahari, D., <strong>Sur, S.</strong>, Rakshit, N., and Kundu, A.</div>
+          <div class="pub-venue">Submitted to International Conference on Machine Intelligence and Network Data Security (MINDS 2026)</div>
+        </div>
+        <div class="pub-chevron">▾</div>
+      </div>
+      <div class="pub-details">
+        <div class="pub-details-inner">
+          Lightweight keypoint-based recognition of isolated Indian Sign Language on the INCLUDE-50 dataset, combining MediaPipe keypoints with small LSTM/Transformer heads. Achieves <strong>97.8% top-1 accuracy at under 1 ms per clip</strong> on Apple Silicon, with an ablation isolating which keypoint groups actually carry the signal.
+          <div class="pub-repo-row"><a href="https://github.com/Codewithsayanjib/ISL-Sign-Recognition" target="_blank" class="repo-link">⌥ ISL-Sign-Recognition</a></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ─── Projects ──────────────────────────────────────────────── -->
+<div class="section-wrap" id="projects">
+  <div class="reveal">
+    <div class="section-tag">Open Source</div>
+    <h2>Code &amp; Benchmarks</h2>
+    <p class="section-intro">
+      Every benchmark I build is released openly and reproducibly. Below are the flagship repositories behind my publications.
+    </p>
+  </div>
+
+  <div class="proj-grid">
+
+    <a href="https://github.com/Codewithsayanjib/qasu-slm-benchmark" target="_blank" class="proj-card reveal reveal-delay-1">
+      <div class="proj-top">
+        <span class="proj-lang">Jupyter Notebook</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">qasu-slm-benchmark</div>
+      <div class="proj-desc">Cluster-aware prompting benchmark for SLMs on questionnaire understanding — 5 models, 54,000 inference runs, MCQ-aware scoring.</div>
+      <div class="proj-tags"><span class="ptag">COMSYS 2026</span><span class="ptag">MIT</span></div>
+    </a>
+
+    <a href="https://github.com/Codewithsayanjib/numfmt-slm" target="_blank" class="proj-card reveal reveal-delay-2">
+      <div class="proj-top">
+        <span class="proj-lang">Python</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">numfmt-slm</div>
+      <div class="proj-desc">Number-format robustness benchmark across 9 SLMs and 7 datasets. Introduces the FSS and FFR metrics for measuring surface-format sensitivity.</div>
+      <div class="proj-tags"><span class="ptag">CALCON 2026</span></div>
+    </a>
+
+    <a href="https://github.com/Codewithsayanjib/SLM-based-MultiAgent-Frameworks" target="_blank" class="proj-card reveal reveal-delay-3">
+      <div class="proj-top">
+        <span class="proj-lang">Jupyter Notebook</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">SLM-based-MultiAgent-Frameworks</div>
+      <div class="proj-desc">Pipeline decomposition and diverse-ensemble multi-agent reasoning on SVAMP. Introduces NATE as a token-budget-aware efficiency metric.</div>
+      <div class="proj-tags"><span class="ptag">ICCE 2026</span></div>
+    </a>
+
+    <a href="https://github.com/Codewithsayanjib/slm-rag-distraction-audit" target="_blank" class="proj-card reveal reveal-delay-1">
+      <div class="proj-top">
+        <span class="proj-lang">Jupyter Notebook</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">slm-rag-distraction-audit</div>
+      <div class="proj-desc">Full-factorial audit of RAG across six SLMs (360M–3.8B): when retrieved context helps versus distracts, by chunk size, retriever, and top-k.</div>
+      <div class="proj-tags"><span class="ptag">SILCON 2026</span></div>
+    </a>
+
+    <a href="https://github.com/Codewithsayanjib/prompt-injection-robustness" target="_blank" class="proj-card reveal reveal-delay-2">
+      <div class="proj-top">
+        <span class="proj-lang">Python</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">prompt-injection-robustness</div>
+      <div class="proj-desc">Reproducible evaluation of prompt-injection robustness in small on-device LLMs (1–3B) with lightweight training-free defenses.</div>
+      <div class="proj-tags"><span class="ptag">MINDS 2026</span><span class="ptag">MIT</span></div>
+    </a>
+
+    <a href="https://github.com/Codewithsayanjib/bias-scale-slm" target="_blank" class="proj-card reveal reveal-delay-3">
+      <div class="proj-top">
+        <span class="proj-lang">Jupyter Notebook</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">bias-scale-slm</div>
+      <div class="proj-desc">Social stereotype bias across ten small language models (135M–9B) on BBQ, CrowS-Pairs, and StereoSet.</div>
+      <div class="proj-tags"><span class="ptag">SILCON 2026</span><span class="ptag">MIT</span></div>
+    </a>
+
+    <a href="https://github.com/Codewithsayanjib/small-models-big-choices" target="_blank" class="proj-card reveal reveal-delay-1">
+      <div class="proj-top">
+        <span class="proj-lang">Jupyter Notebook</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">small-models-big-choices</div>
+      <div class="proj-desc">Systematic study of the few-shot vs. LoRA/QLoRA crossover threshold N* across 12 sub-1B models and 5 NLP tasks.</div>
+      <div class="proj-tags"><span class="ptag">ICCCMLA 2026</span><span class="ptag">MIT</span></div>
+    </a>
+
+    <a href="https://github.com/Codewithsayanjib/ISL-Sign-Recognition" target="_blank" class="proj-card reveal reveal-delay-2">
+      <div class="proj-top">
+        <span class="proj-lang">Python</span>
+        <span class="proj-arrow">↗</span>
+      </div>
+      <div class="proj-name">ISL-Sign-Recognition</div>
+      <div class="proj-desc">Keypoint-based Indian Sign Language recognition (INCLUDE-50). MediaPipe + small LSTM/Transformer — 97.8% top-1 at &lt;1 ms/clip on Apple Silicon.</div>
+      <div class="proj-tags"><span class="ptag">MINDS 2026</span><span class="ptag">MIT</span></div>
+    </a>
+
+  </div>
+
+  <div class="reveal" style="margin-top:1.5rem;">
+    <a href="https://github.com/Codewithsayanjib" target="_blank" class="btn btn-outline">View all repositories on GitHub →</a>
   </div>
 </div>
 
@@ -820,7 +1156,7 @@
         <div>
           <div class="edu-degree">M.E. in Information Technology</div>
           <div class="edu-inst">Jadavpur University · Kolkata, India</div>
-          <div class="edu-note">Research: Small Language Models</div>
+          <div class="edu-note">SGPA: 8.52 · Research: Small Language Models</div>
         </div>
         <div class="edu-year">Sep 2025 –<br>Present</div>
       </div>
@@ -926,7 +1262,7 @@
   </div>
 
   <div style="margin-top:2rem;" class="reveal">
-    <a href="Sayanjib_Sur-2.pdf" target="_blank" class="btn btn-outline">⬇ Download Full CV (PDF)</a>
+    <a href="Sayanjib_Sur_CV.pdf" target="_blank" class="btn btn-outline">⬇ Download Full CV (PDF)</a>
   </div>
 </div>
 
@@ -1029,7 +1365,7 @@ const revealObs = new IntersectionObserver((entries) => {
 revealEls.forEach(el => revealObs.observe(el));
 
 /* ── Active nav on scroll ── */
-const sections = ['research','publications','experience','cv','contact'];
+const sections = ['research','publications','projects','experience','cv','contact'];
 const navLinks = document.querySelectorAll('.nav-links a[data-section]');
 const sectionObs = new IntersectionObserver((entries) => {
   entries.forEach(e => {
